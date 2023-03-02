@@ -1,10 +1,10 @@
-//import * as sinon from 'sinon';
+import * as sinon from 'sinon';
 import * as chai from 'chai';
 // @ts-ignore
 import chaiHttp = require('chai-http');
 
 import { app } from '../app';
-//import TeamsModel from '../database/models/TeamsModel'
+import TeamsModel from '../database/models/TeamsModel'
 
 //import { Response } from 'superagent';
 
@@ -43,6 +43,16 @@ describe('testando a rota teams', () => {
       expect(response.status).to.be.equal(200);
       expect(response.body).to.deep.equal(allTeams);
 
+      it('retorno da rota id', async () => {
+        sinon
+        .stub(TeamsModel, 'findByPk')
+        .resolves(allTeams[0] as TeamsModel)
+    
+        const res = await chai.request(app).get('/teams/1').send()
+    
+        expect(res).to.have.status(200)
+        expect(res.body).to.deep.equal(TeamsModel[0])
+      });
+
   })
- 
 });
