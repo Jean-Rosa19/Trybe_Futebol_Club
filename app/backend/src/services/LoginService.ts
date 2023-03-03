@@ -23,4 +23,11 @@ export default class UserService {
     const token = generateToken(result.dataValues);
     return token;
   }
+
+  async loginRole(id:number, username: string, email: string) {
+    const result = await this._model.findOne({
+      where: { id, username, email },
+    });
+    return result?.role;
+  }
 }

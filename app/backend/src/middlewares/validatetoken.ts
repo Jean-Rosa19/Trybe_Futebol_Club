@@ -19,6 +19,7 @@ export default function verifyToken(req: Request, res: Response, next: NextFunct
   } catch ({ message }) {
     console.error(message);
     res.status(401).json({ message: 'Token must be a valid token' });
+    return;
   }
   next();
 }
