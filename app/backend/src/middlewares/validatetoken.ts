@@ -1,22 +1,23 @@
-import { Request, Response, NextFunction } from 'express';
-import { authenticateToken } from '../utils/jwt';
+import * as jwt from 'jsonwebtoken';
+import { Request, Response } from 'express';
+import 'dotenv/config';
+import Iuser from '../interface/Iuser';
 
-const validateToken = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  const token = req.headers.authorization;
+const { JWT_SECRET } = process.env;
 
-  if (!token) {
+export default function verifyToken(req: Request, res: Response) {
+  const { authorization } = req.headers;
+
+  if (!authorization) {
     return res.status(401).json({ message: 'Token not found' });
   }
-  try {
-    authenticateToken(token);
-  } catch (error) {
-    return res.status(401).json({ message: 'Token must be a valid token' });
-  }
-  next();
-};
 
-export default validateToken;
+  try {
+    const result = jwt.verify(authorization, JWT_SECRET as jwt.Secret);
+    const { role } = result as Iuser;
+    return res.status(200).json({ role });
+  } catch ({ message }) {
+    console.error(message);
+    res.status(401).json({ message: 'Token must be a valid token' });
+  }
+}

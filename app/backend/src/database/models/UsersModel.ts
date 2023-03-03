@@ -3,7 +3,7 @@ import db from '.';
 
 class UsersModel extends Model {
   declare id: number;
-  declare userName: string;
+  declare username: string;
   declare role: string;
   declare email: string;
   declare password: string;
@@ -16,7 +16,7 @@ UsersModel.init({
     primaryKey: true,
     type: INTEGER,
   },
-  userName: {
+  username: {
     type: STRING,
     allowNull: false,
   },

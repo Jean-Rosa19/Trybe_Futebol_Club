@@ -1,16 +1,16 @@
 import * as sinon from 'sinon';
 import * as chai from 'chai';
 // @ts-ignore
-import chaiHttp = require('chai-http');
+import chaiHttp from 'chai-http';
 
 import { app } from '../app';
 import TeamsModel from '../database/models/TeamsModel'
 
 //import { Response } from 'superagent';
-
 chai.use(chaiHttp);
 
 const { expect } = chai;
+
 
 describe('testando a rota teams', () => {
   it('espera-se que o metodo get traga os seguintes times', async()=> {

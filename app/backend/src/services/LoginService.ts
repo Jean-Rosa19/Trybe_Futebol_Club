@@ -1,18 +1,26 @@
+import { ModelStatic } from 'sequelize';
 import * as bcrypt from 'bcryptjs';
-// import { authenticateToken } from '../utils/jwt';
-import UsersModel from '../database/models/UsersModel';
+import UserModel from '../database/models/UsersModel';
+import ILogin from '../interface/Ilogin';
+import { generateToken } from '../utils/jwt';
 
-class LoginService {
-  static async login(email: string, password: string) {
-    const findUser = await UsersModel.findOne({
+export default class UserService {
+  private _model: ModelStatic<UserModel> = UserModel;
+
+  async login(data: ILogin) {
+    const { email, password } = data;
+
+    const result = await this._model.findOne({
       where: { email },
     });
-    const checkLogin = await bcrypt.compare(password, findUser?.password || ' ');
-    if (!checkLogin) {
-      return undefined;
+
+    if (!result) throw new Error('Invalid email or password');
+
+    if (!(await bcrypt.compare(password, result.dataValues.password))) {
+      throw new Error('Invalid email or password');
     }
-    return findUser;
+
+    const token = generateToken(result.dataValues);
+    return token;
   }
 }
-
-export default LoginService;
