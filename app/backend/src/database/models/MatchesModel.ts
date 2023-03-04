@@ -1,4 +1,5 @@
 import { Model, INTEGER, BOOLEAN } from 'sequelize';
+import TeamsModel from './TeamsModel';
 import db from '.';
 
 class MatchesModel extends Model {
@@ -41,7 +42,7 @@ MatchesModel.init({
     type: INTEGER,
     allowNull: false,
   },
-  inProgess: {
+  inProgress: {
     type: BOOLEAN,
     allowNull: false,
     defaultValue: false,
@@ -52,5 +53,7 @@ MatchesModel.init({
   timestamps: false,
   modelName: 'matches',
 });
+MatchesModel.belongsTo(TeamsModel, { as: 'homeTeam', foreignKey: 'homeTeamId' });
+MatchesModel.belongsTo(TeamsModel, { as: 'awayTeam', foreignKey: 'awayTeamId' });
 
 export default MatchesModel;
