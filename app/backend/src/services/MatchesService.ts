@@ -22,4 +22,11 @@ export default class MatchesService {
 
     return result;
   }
+
+  async finishMatcher(id: number):Promise<void> {
+    await this.model.findOne({ where: { id } });
+    await this.model.update({ inProgress: false }, {
+      where: { id },
+    });
+  }
 }

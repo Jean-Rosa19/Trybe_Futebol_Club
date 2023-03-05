@@ -9,4 +9,10 @@ export default class MatchesController {
     const allMatches = await this._service.getAllMatches(inProgress);
     return res.status(200).json(allMatches);
   }
+
+  async finishMatcher(req: Request, res: Response): Promise<Response | void > {
+    const { id } = req.params;
+    await this._service.finishMatcher(Number(id));
+    res.status(200).json({ message: 'Finished' });
+  }
 }
