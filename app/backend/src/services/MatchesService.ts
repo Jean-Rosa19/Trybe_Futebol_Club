@@ -29,4 +29,13 @@ export default class MatchesService {
       where: { id },
     });
   }
+
+  updateMatcher(id: number, homeTeamGoals: number, awayTeamGoals: number):
+  Promise<number[] | undefined> {
+    const result = this.model.update(
+      { homeTeamGoals, awayTeamGoals },
+      { where: { id } },
+    );
+    return result;
+  }
 }

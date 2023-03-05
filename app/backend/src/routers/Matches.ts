@@ -9,5 +9,8 @@ MatchesRouter.get('/', (req:Request, res:Response) => matchesController.getAllMa
 MatchesRouter.patch('/:id/finish', verifyToken, (req:Request, res: Response) => {
   matchesController.finishMatcher(req, res);
 });
+MatchesRouter.patch('/:id', verifyToken, (req: Request, res: Response) => {
+  matchesController.updateMatcher(req, res);
+});
 
 export default MatchesRouter;
