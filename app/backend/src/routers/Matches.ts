@@ -1,4 +1,5 @@
 import { Router, Response, Request } from 'express';
+import validateMatcher from '../middlewares/matchesValidation';
 import MatchesController from '../controllers/MatchesController';
 import verifyToken from '../middlewares/validatetoken';
 
@@ -12,7 +13,7 @@ MatchesRouter.patch('/:id/finish', verifyToken, (req:Request, res: Response) => 
 MatchesRouter.patch('/:id', verifyToken, (req: Request, res: Response) => {
   matchesController.updateMatcher(req, res);
 });
-MatchesRouter.post('/', verifyToken, (req: Request, res: Response) => {
+MatchesRouter.post('/', verifyToken, validateMatcher, (req: Request, res: Response) => {
   matchesController.postAMatcher(req, res);
 });
 
