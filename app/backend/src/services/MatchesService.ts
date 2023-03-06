@@ -38,4 +38,16 @@ export default class MatchesService {
     );
     return result;
   }
+
+  async postAMatcher(
+    homeTeamId:number,
+    homeTeamGoals: number,
+    awayTeamId: number,
+    awayTeamGoals:number,
+  ): Promise<MatchesModel> {
+    const result = this.model.create({
+      homeTeamId, homeTeamGoals, awayTeamId, awayTeamGoals, inProgress: true,
+    });
+    return result;
+  }
 }

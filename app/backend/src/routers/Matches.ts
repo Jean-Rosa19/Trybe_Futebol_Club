@@ -12,5 +12,8 @@ MatchesRouter.patch('/:id/finish', verifyToken, (req:Request, res: Response) => 
 MatchesRouter.patch('/:id', verifyToken, (req: Request, res: Response) => {
   matchesController.updateMatcher(req, res);
 });
+MatchesRouter.post('/', verifyToken, (req: Request, res: Response) => {
+  matchesController.postAMatcher(req, res);
+});
 
 export default MatchesRouter;

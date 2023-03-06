@@ -22,4 +22,15 @@ export default class MatchesController {
     await this._service.updateMatcher(Number(id), homeTeamGoals, awayTeamGoals);
     res.status(200).json({ message: 'Score changed successfully' });
   }
+
+  async postAMatcher(req:Request, res: Response): Promise<Response | void> {
+    const { homeTeamId, homeTeamGoals, awayTeamId, awayTeamGoals } = req.body;
+    const result = await this._service.postAMatcher(
+      homeTeamId,
+      homeTeamGoals,
+      awayTeamId,
+      awayTeamGoals,
+    );
+    res.status(201).json(result);
+  }
 }
