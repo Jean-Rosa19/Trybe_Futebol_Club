@@ -6,11 +6,13 @@ import chaiHttp from 'chai-http';
 import UserService from '../services/LoginService';
 import UserController from '../controllers/LoginController';
 
+
 chai.use(chaiHttp);
 
 const { expect } = chai;
 
 describe('testando a rota login', ()=>{
+    afterEach(sinon.restore)
     it('testa se o status 200 e o token é apresentado', async ()=>{
         //arrange
         const expectedResponse = {
@@ -25,13 +27,12 @@ describe('testando a rota login', ()=>{
         } 
       
         sinon.stub(new UserService, 'login').resolves(expectedResponse.token)
-        new UserController().login(req as Request, res as unknown as Response);
+        await (new UserController().login(req as Request, res as unknown as Response));
 
         expect(res.json.calledWith(expectedResponse)).to.be.true
         expect(res.status.calledWith(200)).to.be.true
 
 
     });
-
 
 })

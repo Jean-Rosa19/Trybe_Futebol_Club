@@ -24,15 +24,14 @@ export default class MatchesService {
   }
 
   async finishMatcher(id: number):Promise<void> {
-    await this.model.findOne({ where: { id } });
     await this.model.update({ inProgress: false }, {
       where: { id },
     });
   }
 
-  updateMatcher(id: number, homeTeamGoals: number, awayTeamGoals: number):
+  async updateMatcher(id: number, homeTeamGoals: number, awayTeamGoals: number):
   Promise<number[] | undefined> {
-    const result = this.model.update(
+    const result = await this.model.update(
       { homeTeamGoals, awayTeamGoals },
       { where: { id } },
     );
