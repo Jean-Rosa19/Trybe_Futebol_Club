@@ -2,7 +2,7 @@ import 'dotenv/config';
 import * as jwt from 'jsonwebtoken';
 import Iuser from '../interface/Iuser';
 
-const { JWT_SECRET } = process.env;
+const { JWT_SECRET } = process.env || 'jwt_secret';
 
 export default function generateToken(data: Iuser): string {
   const { id, username, email } = data;

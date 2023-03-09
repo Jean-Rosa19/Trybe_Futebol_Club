@@ -5,7 +5,7 @@ import TeamsModel from '../database/models/TeamsModel';
 export default class MatchesService {
   model: ModelStatic<MatchesModel> = MatchesModel;
 
-  async getAllMatches(inProgress: unknown): Promise<MatchesModel[]> {
+  async getAllMatches(inProgress: unknown) {
     const result = await this.model.findAll(
       { include: [
         { model: TeamsModel, as: 'homeTeam', attributes: ['teamName'] },
@@ -23,7 +23,7 @@ export default class MatchesService {
     return result;
   }
 
-  async finishMatcher(id: number):Promise<void> {
+  async finishMatcher(id: number) {
     await this.model.update({ inProgress: false }, {
       where: { id },
     });

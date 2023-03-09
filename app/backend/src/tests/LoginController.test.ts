@@ -2,12 +2,9 @@ import * as sinon from 'sinon';
 import * as chai from 'chai';
 import { Request, Response } from 'express';
 
-import chaiHttp from 'chai-http';
+
 import UserService from '../services/LoginService';
 import UserController from '../controllers/LoginController';
-
-
-chai.use(chaiHttp);
 
 const { expect } = chai;
 
@@ -19,18 +16,21 @@ describe('testando a rota login', ()=>{
             token: "liuashfaiojdçfoak~fodpauhapçhd"
         }
         const req = {
-            body: {}
+            body: {email: 'teste@teste.com'}
         }
         const res = {
-            json: sinon.stub(),
+            json: sinon.stub().resolves(),
             status: sinon.stub()
         } 
-      
-        sinon.stub(new UserService, 'login').resolves(expectedResponse.token)
-        await (new UserController().login(req as Request, res as unknown as Response));
+        res.status =  sinon.stub().returns(res);
+        
+        const controllerInstance = new UserController()
+        sinon.stub(controllerInstance._service, 'login').resolves(expectedResponse.token)
+        await (controllerInstance.login(req as Request, res as unknown as Response));
 
-        expect(res.json.calledWith(expectedResponse)).to.be.true
         expect(res.status.calledWith(200)).to.be.true
+        expect(res.json.calledWith(expectedResponse)).to.be.true
+       
 
 
     });

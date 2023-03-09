@@ -4,7 +4,7 @@ import LoginService from '../services/LoginService';
 import Iuser from '../interface/Iuser';
 
 export default class UserController {
-  private _service = new LoginService();
+  _service = new LoginService();
 
   async login(req: Request, res: Response) {
     try {

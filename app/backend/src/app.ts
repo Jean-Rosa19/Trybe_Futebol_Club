@@ -5,21 +5,11 @@ import matchesRouter from './routers/Matches';
 
 class App {
   public app: express.Express;
-
   constructor() {
     this.app = express();
-
     this.config();
-    this.routes();
-
     // Não remover essa rota
     this.app.get('/', (req, res) => res.json({ ok: true }));
-  }
-
-  private routes(): void {
-    this.app.use('/teams', teamsRouter);
-    this.app.use('/login', loginRouter);
-    this.app.use('/matches', matchesRouter);
   }
 
   private config():void {
@@ -32,14 +22,15 @@ class App {
 
     this.app.use(express.json());
     this.app.use(accessControl);
+    this.app.use('/teams', teamsRouter);
+    this.app.use('/login', loginRouter);
+    this.app.use('/matches', matchesRouter);
   }
 
   public start(PORT: string | number):void {
     this.app.listen(PORT, () => console.log(`Running on port ${PORT}`));
   }
 }
-
 export { App };
-
 // Essa segunda exportação é estratégica, e a execução dos testes de cobertura depende dela
 export const { app } = new App();
