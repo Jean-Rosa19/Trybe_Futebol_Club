@@ -5,7 +5,7 @@ import UsersModel from '../database/models/UsersModel';
 import {Model} from 'sequelize'
 import UserService from '../services/LoginService';
 import {hashSync} from 'bcryptjs'
-
+import { app } from '../app';
 
 
 const { expect } = chai;
@@ -38,6 +38,6 @@ describe('teste camada login service', ()=>{
         sinon.stub(UsersModel, 'findOne').resolves(user as unknown as Model)
         const result = await (new UserService().loginRole(id, username, email))
         expect(result).to.be.equal(user.role)
-    })
+    });
    
 })
