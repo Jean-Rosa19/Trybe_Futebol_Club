@@ -9,6 +9,8 @@ import { matches } from './mocks/mocks'
 import MatchesModel from '../database/models/MatchesModel';
 import TeamsModel from '../database/models/TeamsModel';
 import TeamService from '../services/TeamsServices';
+import validateMatcher  from '../middlewares/matchesValidation';
+import { Request, Response, NextFunction } from 'express';
 
 chai.use(chaiHttp)
 
@@ -72,6 +74,18 @@ describe('testes da camada de matchesService', ()=>{
          .request(app).get('/leaderboard/home');
   
       expect(result.status).to.be.deep.equal(200);
+    });
+    
+    describe('myMiddleware', () => {
+      it('should call next without errors', () => {
+        const req = {} as Request;
+        const res = {} as Response;
+        const next =  sinon.spy();
+    
+        validateMatcher(req, res, next);
+    
+        expect(next.calledOnce).to.be.true;
+      });
     });
   });
   

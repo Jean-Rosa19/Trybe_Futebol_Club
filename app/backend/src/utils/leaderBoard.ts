@@ -1,4 +1,5 @@
 import { IMatches } from '../interface/Imatches';
+import { Ileaderboard } from '../interface/IleaderBoard';
 
 const rankingPositions = {
   name: '',
@@ -9,6 +10,8 @@ const rankingPositions = {
   totalLosses: 0,
   goalsFavor: 0,
   goalsOwn: 0,
+  goalsBalance: 0,
+  efficiency: 0,
 };
 
 const countVictoryHome = (goalsTeamHome:number, goalsAwayHome:number) => {
@@ -65,6 +68,8 @@ const resetTeamsScore = () => {
 
 const countHomePoints = ((matches: IMatches[]) => {
   matches.forEach(({ homeTeamGoals, awayTeamGoals }) => {
+    rankingPositions.totalGames += 1;
+
     switch (true) {
       case homeTeamGoals > awayTeamGoals:
         countVictoryHome(homeTeamGoals, awayTeamGoals);
@@ -83,6 +88,8 @@ const countHomePoints = ((matches: IMatches[]) => {
 
 const countAwayPoints = ((matches: IMatches[]) => {
   matches.forEach(({ homeTeamGoals, awayTeamGoals }) => {
+    rankingPositions.totalGames += 1;
+
     switch (true) {
       case homeTeamGoals > awayTeamGoals:
         countVictoryAway(homeTeamGoals, awayTeamGoals);
@@ -99,42 +106,45 @@ const countAwayPoints = ((matches: IMatches[]) => {
   });
 });
 
-const countTeamsHome = (name: string, matches: IMatches[]) => {
-  switch (name === rankingPositions.name) {
-    case false:
-      resetTeamsScore();
-      break;
-    case true:
-      break;
-    default:
-
-      break;
+const countHomeTeamPerformance = (name: string, allTeamMatches: IMatches[]) => {
+  if (name !== rankingPositions.name) {
+    resetTeamsScore();
   }
 
   rankingPositions.name = name;
-  countHomePoints(matches);
-  rankingPositions.totalGames += 1;
+  countHomePoints(allTeamMatches);
+  rankingPositions.goalsBalance = rankingPositions.goalsFavor - rankingPositions.goalsOwn;
+  rankingPositions.efficiency = Number(
+    ((rankingPositions.totalPoints / (rankingPositions.totalGames * 3)) * 100).toFixed(2),
+  );
+  return rankingPositions;
+};
+
+const countTeamsAway = (name: string, allTeamMatches: IMatches[]) => {
+  if (name !== rankingPositions.name) {
+    resetTeamsScore();
+  }
+
+  rankingPositions.name = name;
+  countAwayPoints(allTeamMatches);
 
   return rankingPositions;
 };
 
-const countTeamsAway = (name: string, matches: IMatches[]) => {
-  switch (name === rankingPositions.name) {
-    case false:
-      resetTeamsScore();
-      break;
-    case true:
-      break;
-    default:
+const TeamsSorted = (matches: Ileaderboard[]) =>
+  matches.sort((team1, team2) => {
+    switch (true) {
+      case team2.totalPoints !== team1.totalPoints:
+        return team2.totalPoints - team1.totalPoints;
+      case team2.totalVictories !== team1.totalVictories:
+        return team2.totalVictories - team1.totalVictories;
+      case team2.goalsBalance !== team1.goalsBalance:
+        return team2.goalsBalance - team1.goalsBalance;
+      case team2.goalsFavor !== team1.goalsFavor:
+        return team2.goalsFavor - team1.goalsFavor;
+      default:
+        return team1.goalsOwn - team2.goalsOwn;
+    }
+  });
 
-      break;
-  }
-
-  rankingPositions.name = name;
-  countAwayPoints(matches);
-  rankingPositions.totalGames += 1;
-
-  return rankingPositions;
-};
-
-export { countTeamsHome, countTeamsAway };
+export { countHomeTeamPerformance, countTeamsAway, TeamsSorted };
