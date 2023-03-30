@@ -14,9 +14,9 @@ npm run compose:up
 
 Os containers estão mapeados nas seguintes portas:
 
-app_frontend: 3000
-app_backend: 3001
-db: 3002
+* app_frontend: 3000
+* app_backend: 3001
+* db: 3002
 Para parar os containers, na pasta raiz do projeto execute o comando:
 
 npm run compose:down
@@ -29,6 +29,7 @@ http://localhost:3000
 4 - Usuários para fazer login
 Nessa aplicação é necessário fazer o login com um email e senha. A tabela abaixo disponibiliza usuários pré-cadastrados para o acesso:
 
-Email	Senha
-admin@admin.com	secret_admin
-user@user.com	secret_user
+* Email: admin@admin.com	secret_admin
+* Senha: user@user.com	secret_user
+
+
