@@ -7,7 +7,7 @@ Essa aplicação tem como objetivo ser um site informativo sobre partidas e clas
 ## Instalação e execução:
 
 1 - Clone o repositório:
-git clone git@github.com:tryber/sd-024-a-trybe-futebol-clube.git
+git clone git@github.com:Jean-Rosa19/Trybe_Futebol_Club.git
 
 2 - Na raíz do projeto, suba os containers do frontend (app_frontend), backend (app_backend) e o banco de dados (db) com o comando:
 npm run compose:up
